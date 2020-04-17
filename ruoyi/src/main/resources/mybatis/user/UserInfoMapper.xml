@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.user.mapper.UserInfoMapper">
+
+    <resultMap type="UserInfo" id="UserInfoResult">
+        <id     property="userId"      column="user_id"      />
+        <result property="stu_no"    column="stu_no"    />
+        <result property="userName"    column="user_name"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="nation"    column="user_nation"    />
+        <result property="school"    column="school_name"    />
+        <result property="startTime"    column="start_date"    />
+        <result property="political"    column="politic_countenance"    />
+    </resultMap>
+    <sql id="selectUserInfo">
+        select u.user_id,u.stu_no,u.user_name,u.id_number,u.user_nation,u.school_name,u.start_date,u.politic_countenance
+        from user_archives u
+    </sql>
+
+    <select id="getInfo" parameterType="String" resultMap="UserInfoResult">
+        <include refid="selectUserInfo"/>
+        WHERE user_id=#{userId}
+    </select>
+
+    <insert id="addInfo" parameterType="userInfo">
+        insert into user_archives(
+        user_id,school_name
+        )values(
+        #{userId},
+        #{school}
+        )
+    </insert>
+
+    <update id="upodateInfo" parameterType="userInfo">
+        update user_archives
+        <set>
+            stu_no=#{stu_no},
+            id_number=#{idNumber},
+            user_name=#{userName},
+            user_nation=#{nation},
+            start_date=#{startTime},
+            politic_countenance=#{political}
+        </set>
+        where user_id=#{userId}
+    </update>
+</mapper>

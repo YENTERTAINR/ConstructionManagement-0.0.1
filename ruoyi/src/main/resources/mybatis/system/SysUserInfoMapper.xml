@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.SysUserInfoMapper">
+    <resultMap type="UserInfo" id="UserInfoResult">
+        <id     property="userId"      column="user_id"      />
+        <result property="stu_no"    column="stu_no"    />
+        <result property="userName"    column="user_name"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="nation"    column="user_nation"    />
+        <result property="school"    column="school_name"    />
+        <result property="startTime"    column="start_date"    />
+        <result property="political"    column="politic_countenance"    />
+    </resultMap>
+
+    <sql id="selectInfoVO">
+        select *
+        from user_archives
+    </sql>
+
+    <select id="selectInfoList" parameterType="UserInfo" resultMap="UserInfoResult">
+        <include refid="selectInfoVO"></include>
+    </select>
+
+    <select id="selectInfoById" parameterType="UserInfo" resultMap="UserInfoResult">
+        <include refid="selectInfoVO"></include>
+        where user_id=#{userId}
+    </select>
+
+    <delete id="delInfo" parameterType="String">
+        delete from user_archives
+        where user_id IN
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>
